@@ -10,6 +10,7 @@ public class BlogController {
 	@RequestMapping({"/{id}","/{id}/{categoryNo}","/{id}/{categoryNo}/{postNo}"})
 	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Long categoryNo, @PathVariable("postNo") Long postNo) {
 		
+		System.out.println("!!!");
 		return "blog/main";
 	}
 }
