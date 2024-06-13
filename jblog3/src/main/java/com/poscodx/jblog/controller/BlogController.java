@@ -9,8 +9,23 @@ public class BlogController {
 	
 	@RequestMapping({"/{id}","/{id}/{categoryNo}","/{id}/{categoryNo}/{postNo}"})
 	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Long categoryNo, @PathVariable("postNo") Long postNo) {
-		
 		System.out.println("!!!");
 		return "blog/main";
 	}
+	
+	@RequestMapping("/{id}/admin/basic")
+	public String adminBasic() {
+		return "blog/admin-basic";
+	}
+
+	@RequestMapping("/{id}/admin/category")
+	public String adminCategory() {
+		return "blog/admin-category";
+	}
+	
+	@RequestMapping("/{id}/admin/write")
+	public String adminWrite() {
+		return "blog/admin-write";
+	}
+	
 }
