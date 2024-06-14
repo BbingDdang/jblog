@@ -8,7 +8,7 @@
 			into user 
 			values(#{id}, #{name}, password(#{password}), current_date())
 		]]>
-		<selectKey keyProperty = "no" resultType = "long" order = "AFTER">
+		<selectKey keyProperty = "id" resultType = "string" order = "AFTER" >
 			<![CDATA[
 				select last_insert_id() from dual
 			]]>
@@ -22,13 +22,19 @@
 	</select>
 	
 	<select id = "findByIdAndPassword" parameterType = "map" resultType = "uservo">
-	<![CDATA[	
-		select u.id, u.name, u.password, u.join_date as joinDate
-		from user u
-		where id = #{id} 
-		and password = password(#{password})
-	]]>
+		<![CDATA[	
+			select u.id as id, u.name as name, u.password as password, u.join_date as joinDate
+			from user u
+			where id = #{id} 
+			and password = password(#{password})
+		]]>
 	</select>
-	
+	<select id = "findById" parameterType = "string" resultType = "uservo">
+		<![CDATA[	
+			select u.id as id, u.name as name, u.password as password, u.join_date as joinDate
+			from user u
+			where id = #{id} 
+		]]>
+	</select>
 	
 </mapper>
