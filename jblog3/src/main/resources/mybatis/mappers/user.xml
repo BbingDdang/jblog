@@ -8,11 +8,11 @@
 			into user 
 			values(#{id}, #{name}, password(#{password}), current_date())
 		]]>
-		<selectKey keyProperty = "id" resultType = "string" order = "AFTER" >
+		<!-- <selectKey keyProperty = "id" resultType = "string" order = "AFTER" >
 			<![CDATA[
 				select last_insert_id() from dual
 			]]>
-		</selectKey>
+		</selectKey> -->
 	</insert>
 	<select id="findAll" resultType="uservo">
 		<![CDATA[	

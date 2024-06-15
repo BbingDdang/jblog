@@ -6,6 +6,7 @@ public class CategoryVo {
 	private String description;
 	private String regDate;
 	private String id;
+	private Long postCount;
 	public Long getNo() {
 		return no;
 	}
@@ -20,6 +21,11 @@ public class CategoryVo {
 	}
 	public String getDescription() {
 		return description;
+	}
+	@Override
+	public String toString() {
+		return "CategoryVo [no=" + no + ", name=" + name + ", description=" + description + ", regDate=" + regDate
+				+ ", id=" + id + ", postCount=" + postCount + "]";
 	}
 	public void setDescription(String description) {
 		this.description = description;
@@ -36,10 +42,12 @@ public class CategoryVo {
 	public void setId(String id) {
 		this.id = id;
 	}
-	@Override
-	public String toString() {
-		return "CategoryVo [no=" + no + ", name=" + name + ", description=" + description + ", regDate=" + regDate
-				+ ", id=" + id + "]";
+	
+	public Long getPostCount() {
+		return postCount;
+	}
+	public void setPostCount(Long postCount) {
+		this.postCount = postCount;
 	}
 	
 }

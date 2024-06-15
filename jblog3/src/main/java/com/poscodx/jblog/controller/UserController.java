@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.poscodx.jblog.service.BlogService;
 import com.poscodx.jblog.service.UserService;
-import com.poscodx.jblog.vo.BlogVo;
 import com.poscodx.jblog.vo.UserVo;
 
 @Controller
 @RequestMapping("/user")
+
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private BlogService blogService;
 	/**
 	 * 회원가입
 	 */
@@ -40,16 +38,14 @@ public class UserController {
 			model.addAllAttributes(result.getModel());
 			return "user/join";
 		}
-		
-		BlogVo blogVo = new BlogVo();
-		blogVo.setId(vo.getId());
-		blogVo.setTitle(vo.getName() + "'s Blog");
-		blogVo.setLogo("/assets/images/spring-logo.jpg");
-		blogService.insert(blogVo);
 		userService.join(vo);
 		return "redirect:/user/joinsuccess";
 	}
 	
+	@GetMapping("/joinsuccess")
+	public String joinSuccess(@ModelAttribute UserVo vo) {
+		return "user/joinsuccess";
+	}
 	/*
 	 * 로그인
 	 */

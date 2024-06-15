@@ -13,11 +13,15 @@ public class BlogRepository {
 	private SqlSession sqlSession;
 	
 	public void update(BlogVo vo) {
-		sqlSession.update("vo", vo);
+		sqlSession.update("blog.update", vo);
 	}
 
 	public void insert(BlogVo vo) {
-		sqlSession.insert("vo", vo);
+		sqlSession.insert("blog.insert", vo);
+	}
+
+	public BlogVo findById(String id) {
+		return sqlSession.selectOne("blog.findById", id);
 	}
 
 }
