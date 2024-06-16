@@ -52,12 +52,13 @@ public class BlogController {
 	 */
 	
 	@RequestMapping({"","/{categoryNo}","/{categoryNo}/{postNo}"})
-	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Optional<Long> categoryNo,@AuthUser UserVo vo, @PathVariable("postNo") Optional<Long> postNo, Model model) {
+	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Optional<Long> categoryNo, UserVo vo, @PathVariable("postNo") Optional<Long> postNo, Model model) {
+		Map<String, Long> noList = blogService.getCategoryNoAndPostNo(id);
 		if (categoryNo.isEmpty()) {
-			categoryNo = Optional.of(1L);
+			categoryNo = Optional.of(noList.get("cNo"));
 		}
 		if (postNo.isEmpty()) {
-			postNo = Optional.of(1L);
+			postNo = Optional.of(noList.get("pNo"));
 		}
 		Long cNo = categoryNo.get();
 		Long pNo = postNo.get();

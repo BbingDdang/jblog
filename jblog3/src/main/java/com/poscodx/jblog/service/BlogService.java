@@ -104,7 +104,18 @@ public class BlogService {
 		postRepository.insert(vo);
 	}
 	
+	/*
+	 * default page 번호 불러오기 
+	 */
 	
+	public Map<String, Long> getCategoryNoAndPostNo(String id){
+		Long cNo = categoryRepository.findCategoryNoByIdAndName(id, "미분류");
+		Long pNo = postRepository.findNoByCategoryNo(cNo);
+		Map<String, Long> map = new HashMap<>();
+		map.put("cNo", cNo);
+		map.put("pNo", pNo);
+		return map;
+	}
 	
 	
 

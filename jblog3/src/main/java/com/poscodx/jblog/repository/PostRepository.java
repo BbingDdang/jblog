@@ -30,5 +30,9 @@ public class PostRepository {
 	public List<PostVo> findAllCategoryPostByCategoryNo(Long categoryNo) {
 		return sqlSession.selectList("post.findAllCategoryPostByCategoryNo", categoryNo);
 	}
+	
+	public Long findNoByCategoryNo(Long categoryNo) {
+		return sqlSession.selectOne("post.findNoByCategoryNo", categoryNo);
+	}
 
 }

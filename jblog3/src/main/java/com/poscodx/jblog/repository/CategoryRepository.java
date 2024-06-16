@@ -37,5 +37,9 @@ public class CategoryRepository {
 	public void deleteByIdAndNo(String id, Long no) {
 		sqlSession.delete("category.deleteByIdAndNo", Map.of("id", id, "no", no));
 	}
+	
+	public long findCategoryNoByIdAndName(String id, String name) {
+		return sqlSession.selectOne("category.findCategoryNoByIdAndName", Map.of("id", id, "name", name));
+	}
 
 }

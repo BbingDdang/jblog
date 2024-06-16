@@ -31,6 +31,19 @@
 			    no, name, description
 		]]>
 	</select>
+	<select id = "findCategoryNoByIdAndName" parameterType = "map" resultType = "long">
+		<![CDATA[	
+			select 
+			    no
+			from 
+			    category
+			where
+				id = #{id}
+			and
+				name = #{name}
+		]]>
+	</select>
+	
 	<delete id="deleteByIdAndNo" parameterType="map">
 		<![CDATA[
 			delete 

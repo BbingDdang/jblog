@@ -22,7 +22,15 @@
 			order by regDate desc;
 		]]>
 	</select>
-
+	<select id = "findNoByCategoryNo" parameterType = "long" resultType = "long">
+		<![CDATA[	
+			select no
+			from post
+			where category_no = #{categoryNo}
+			order by no
+			limit 0,1
+		]]>
+	</select>
 	<select id = "findPostByNoAndCategoryNo" parameterType = "map" resultType = "postvo">
 		<![CDATA[	
 			select no, title, contents, reg_date as regDate, category_no as categoryNo
