@@ -52,6 +52,17 @@ public class AuthInterceptor implements HandlerInterceptor{
 			return false;
 		}
 		
+		// 6. auth로 session과 url의 userId 비교
+		String requestURI = request.getRequestURI();
+		String[] adminIdArray = requestURI.split("/");
+		if (adminIdArray.length > 1) {
+			String adminId = adminIdArray[2];
+			String userId = authUser.getId();
+			if (!adminId.equals(userId)) {
+				response.sendRedirect(request.getContextPath() + "/" + adminId);
+			}
+		}
+		
 		// 6. 권한(Authorization) 체크를 위해 @Auth의 role을 가져오기("USER","ADMIN")
 //		String role = auth.role();
 		

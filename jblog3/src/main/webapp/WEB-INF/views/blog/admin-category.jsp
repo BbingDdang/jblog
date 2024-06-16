@@ -35,7 +35,14 @@
 					        <td>${row.name}</td>
 					        <td>${row.postCount}</td>
 					        <td>${row.description}</td>
-					        <td><a href = "${pageContext.request.contextPath}/${authUser.id}/admin/category/delete?no=${row.no}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
+					        <c:choose>
+					        	<c:when test = "${row.name eq '미분류'}">
+					        		<td></td>
+					        	</c:when>
+					        	<c:otherwise>
+					        		<td><a href = "${pageContext.request.contextPath}/${authUser.id}/admin/category/delete?no=${row.no}"><img src="${pageContext.request.contextPath}/assets/images/delete.jpg"></a></td>
+					        	</c:otherwise>
+					        </c:choose>
 					    </tr>
 					</c:forEach>
 				</table>

@@ -47,15 +47,18 @@ public class BlogController {
 	@Autowired
 	private BlogService blogService;
 	
+	/*
+	 * 블로그 메인 페이지 보기 
+	 */
+	
 	@RequestMapping({"","/{categoryNo}","/{categoryNo}/{postNo}"})
-	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Optional<Long> categoryNo, @PathVariable("postNo") Optional<Long> postNo, Model model) {
+	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Optional<Long> categoryNo,@AuthUser UserVo vo, @PathVariable("postNo") Optional<Long> postNo, Model model) {
 		if (categoryNo.isEmpty()) {
 			categoryNo = Optional.of(1L);
 		}
 		if (postNo.isEmpty()) {
 			postNo = Optional.of(1L);
 		}
-		
 		Long cNo = categoryNo.get();
 		Long pNo = postNo.get();
 		Map<String, Object> map = blogService.getMain(id, pNo, cNo);
@@ -90,10 +93,14 @@ public class BlogController {
 	 */
 	@Auth
 	@PostMapping("/admin/basic")
-	public String adminBasic(@PathVariable("id") String id, BlogVo vo, @RequestParam MultipartFile file) {
+	public String adminBasic(@PathVariable("id") String id, BlogVo vo, UserVo uvo, @RequestParam MultipartFile file) {
 		String logo = fileUploadService.restore(file);
 		if (logo != null) {
 			vo.setLogo(logo);
+		}
+		UserVo authUser = userService.getUser(uvo.getId());
+		if (!id.equals(authUser.getId())) {
+			return "blog/main";
 		}
 		blogService.updateBlog(vo);
 		servletContext.setAttribute("blogvo", vo);
@@ -119,7 +126,7 @@ public class BlogController {
 	}
 		
 	/*
-	 * admin-category insert
+	 * admin-category 추가 
 	 */
 	@PostMapping("/admin/category/add")
 	public String addCategory(@PathVariable("id") String id, @ModelAttribute("categoryVo") CategoryVo vo, Model model) {
@@ -128,13 +135,17 @@ public class BlogController {
 	}
 	
 	/*
-	 * admin-category delete
+	 * admin-category 삭제
 	 */
 	@GetMapping("/admin/category/delete")
 	public String deleteCategory(@PathVariable("id") String id, @RequestParam("no") Long no) {
 		blogService.deleteCategory(id,no);
 		return "redirect:/" + id + "/admin/category";
 	}
+	
+	/*
+	 * post insert 페이지 보기 
+	 */
 	
 	@Auth
 	@GetMapping("/admin/write")
@@ -148,6 +159,11 @@ public class BlogController {
 		model.addAttribute("list", list);
 		return "blog/admin-write";
 	}
+	
+	/*
+	 * post insert 실행 
+	 */
+	
 	@Auth
 	@PostMapping("/admin/write")
 	public String adminWrite(@PathVariable("id") String id, @ModelAttribute("postVo") PostVo vo) {

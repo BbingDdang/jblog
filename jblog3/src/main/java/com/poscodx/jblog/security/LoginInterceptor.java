@@ -43,6 +43,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		session.setAttribute("authUser", authUser);
 		
 		response.sendRedirect(request.getContextPath());
+		
 		return false;
 	}
 
