@@ -14,6 +14,10 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	/*
+	 * 카테고리 리스트 생성 
+	 */
+	
 	public List<CategoryVo> findAllCategoryById(String id) {
 
 		return categoryRepository.findAllCategoryById(id);

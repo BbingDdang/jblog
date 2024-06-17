@@ -20,13 +20,25 @@ public class UserRepository {
 		this.sqlSession = sqlSession;
 	}
 	
+	/*
+	 * 유저 추가
+	 */
+	
 	public int insert(UserVo vo) {
 		return sqlSession.insert("user.insert", vo);
 	}
+	
+	/*
+	 * 유저 찾기 id + password
+	 */
 
 	public UserVo findByIdAndPassword(String id, String password) {
 		return sqlSession.selectOne("user.findByIdAndPassword", Map.of("id", id, "password", password));
 	}
+	
+	/*
+	 * 유저 찾기 id
+	 */
 
 	public UserVo findById(String id) {
 		return sqlSession.selectOne("user.findById", id);

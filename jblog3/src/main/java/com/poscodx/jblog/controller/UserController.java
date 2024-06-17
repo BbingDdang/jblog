@@ -25,12 +25,17 @@ public class UserController {
 	private UserService userService;
 	
 	/**
-	 * 회원가입
+	 * 회원가입 페이지 보기 
 	 */
+	
 	@GetMapping("/join")
 	public String join(@ModelAttribute UserVo vo) {
 		return "user/join";
 	}
+	
+	/*
+	 * 회원가입 실행 
+	 */
 	
 	@PostMapping("/join")
 	public String join(@ModelAttribute @Valid UserVo vo, BindingResult result, Model model) {
@@ -42,13 +47,19 @@ public class UserController {
 		return "redirect:/user/joinsuccess";
 	}
 	
+	/*
+	 * 회원가입 성공 페이지 보기 
+	 */
+	
 	@GetMapping("/joinsuccess")
 	public String joinSuccess(@ModelAttribute UserVo vo) {
 		return "user/joinsuccess";
 	}
+	
 	/*
-	 * 로그인
+	 * 로그인 페이지 보기 
 	 */
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
 		return "user/login";

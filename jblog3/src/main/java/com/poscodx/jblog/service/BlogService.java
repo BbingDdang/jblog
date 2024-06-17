@@ -60,14 +60,26 @@ public class BlogService {
 		return map;
 	}
 	
+	/*
+	 * 블로그 업데이트 
+	 */
+	
 	public void updateBlog(BlogVo vo) {
 		blogRepository.update(vo);
 	}
+	
+	/*
+	 * 블로그 추가 (회원가입시 자동 추가)
+	 */
 
 	public void insert(BlogVo vo) {
 		blogRepository.insert(vo);
 	}
-
+	
+	/*
+	 * 블로그 찾기 {id로}
+	 */
+	
 	public BlogVo findById(String id) {
 		return blogRepository.findById(id);
 	}

@@ -77,6 +77,7 @@ public class BlogController {
 	/*
 	 * admin-basic 페이지 보기
 	 */
+	
 	@Auth
 	@GetMapping("/admin/basic")
 	public String adminBasic(@PathVariable("id") String id,@AuthUser UserVo vo, Model model) {
@@ -92,6 +93,7 @@ public class BlogController {
 	/*
 	 * admin-basic 페이지 업데이트 실행
 	 */
+	
 	@Auth
 	@PostMapping("/admin/basic")
 	public String adminBasic(@PathVariable("id") String id, BlogVo vo, UserVo uvo, @RequestParam MultipartFile file) {
@@ -112,6 +114,7 @@ public class BlogController {
 	/*
 	 * admin-category 페이지 보기 
 	 */
+	
 	@Auth
 	@GetMapping("/admin/category")
 	public String adminCategory(@PathVariable("id") String id, UserVo vo, Model model) {
@@ -129,6 +132,8 @@ public class BlogController {
 	/*
 	 * admin-category 추가 
 	 */
+	
+	@Auth
 	@PostMapping("/admin/category/add")
 	public String addCategory(@PathVariable("id") String id, @ModelAttribute("categoryVo") CategoryVo vo, Model model) {
 	    blogService.addCategory(vo);
@@ -138,6 +143,8 @@ public class BlogController {
 	/*
 	 * admin-category 삭제
 	 */
+	
+	@Auth
 	@GetMapping("/admin/category/delete")
 	public String deleteCategory(@PathVariable("id") String id, @RequestParam("no") Long no) {
 		blogService.deleteCategory(id,no);

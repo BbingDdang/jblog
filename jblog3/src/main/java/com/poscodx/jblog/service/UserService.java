@@ -22,6 +22,10 @@ public class UserService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	/*
+	 * 회원가입
+	 */
+	
 	public void join(UserVo vo) {
 		userRepository.insert(vo);
 		BlogVo blogVo = new BlogVo();
@@ -37,9 +41,17 @@ public class UserService {
 			
 	}
 	
+	/*
+	 * 유저 목록 가져오기
+	 */
+	
 	public UserVo getUser(String id) {
 		return userRepository.findById(id);
 	}
+	
+	/*
+	 * 유저 목록 가져오기 id + password
+	 */
 	
 	public UserVo getUser(String id, String password) {
 		return userRepository.findByIdAndPassword(id, password);
