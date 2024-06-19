@@ -33,13 +33,23 @@ public class BlogService {
 	/*
 	 * post view
 	 */
+	
 	public PostVo findPostByNoAndCategoryNo(Long no, Long categoryNo) {
 		return postRepository.findPostByNoAndCategoryNo(no, categoryNo);
 	}
 	
 	/*
+	 * post count
+	 */
+	
+	public Long findCountCategoryNo(Long categoryNo) {
+		return postRepository.findCountByCategoryNo(categoryNo);
+	}
+	
+	/*
 	 * postlist view
 	 */
+	
 	public List<PostVo> findAllCategoryPostByCategoryNo(Long categoryNo) {
 		return postRepository.findAllCategoryPostByCategoryNo(categoryNo);
 	}
@@ -47,17 +57,23 @@ public class BlogService {
 	/*
 	 * blog main view 
 	 */
+	
 	public Map<String, Object> getMain(String id, Long postNo, Long categoryNo){
-		PostVo pvo = findPostByNoAndCategoryNo(postNo, categoryNo);
+		
 		List<PostVo> plist = findAllCategoryPostByCategoryNo(categoryNo);
 		List<CategoryVo> clist = findAllCategoryById(id);
-		
 		Map<String, Object> map = new HashMap<>();
-		map.put("pvo", pvo);
-		map.put("plist", plist);
 		map.put("clist", clist);
+		map.put("plist", plist);
+		if (postNo == null) {
+			return map;
+		}
+		else {
+			PostVo pvo = findPostByNoAndCategoryNo(postNo, categoryNo);
+			map.put("pvo", pvo);
+			return map;
+		}
 		
-		return map;
 	}
 	
 	/*
@@ -105,7 +121,10 @@ public class BlogService {
 	 */
 	
 	public void deleteCategory(String id, Long no) {
-		categoryRepository.deleteByIdAndNo(id, no);
+		if (findCountCategoryNo(no) == 0) {
+			categoryRepository.deleteByIdAndNo(id, no);
+		}
+		
 	}
 
 	/*
@@ -114,6 +133,13 @@ public class BlogService {
 	
 	public void addPost(PostVo vo) {
 		postRepository.insert(vo);
+	}
+	
+	/*
+	 * post no 받기..
+	 */
+	public long findPostNoByCategoryNo(Long categoryNo) {
+		return postRepository.findNoByCategoryNo(categoryNo);
 	}
 	
 	/*

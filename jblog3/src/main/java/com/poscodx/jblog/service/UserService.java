@@ -2,6 +2,7 @@ package com.poscodx.jblog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.poscodx.jblog.repository.BlogRepository;
 import com.poscodx.jblog.repository.CategoryRepository;
@@ -11,6 +12,7 @@ import com.poscodx.jblog.vo.CategoryVo;
 import com.poscodx.jblog.vo.UserVo;
 
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired

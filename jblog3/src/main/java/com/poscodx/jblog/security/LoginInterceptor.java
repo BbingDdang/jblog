@@ -25,7 +25,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
 		
-		
+		// 고쳐야함 email로..?
 		UserVo authUser = userService.getUser(id, password);
 		System.out.println(authUser);
 		if (authUser == null) {

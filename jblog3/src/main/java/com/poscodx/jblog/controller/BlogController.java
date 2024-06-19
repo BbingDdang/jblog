@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.poscodx.jblog.security.Auth;
 import com.poscodx.jblog.security.AuthUser;
 import com.poscodx.jblog.service.BlogService;
-import com.poscodx.jblog.service.CategoryService;
 import com.poscodx.jblog.service.FileUploadService;
 import com.poscodx.jblog.service.UserService;
 import com.poscodx.jblog.vo.BlogVo;
@@ -39,9 +38,6 @@ public class BlogController {
 	private FileUploadService fileUploadService;
 	
 	@Autowired
-	private CategoryService categoryService;
-	
-	@Autowired
 	private UserService userService;
 	
 	@Autowired
@@ -49,6 +45,8 @@ public class BlogController {
 	
 	/*
 	 * 블로그 메인 페이지 보기 
+	 * 
+	 * 코딩천재 임병준
 	 */
 	
 	@RequestMapping({"","/{categoryNo}","/{categoryNo}/{postNo}"})
@@ -57,19 +55,27 @@ public class BlogController {
 		if (categoryNo.isEmpty()) {
 			categoryNo = Optional.of(noList.get("cNo"));
 		}
-		if (postNo.isEmpty()) {
-			postNo = Optional.of(noList.get("pNo"));
-		}
 		Long cNo = categoryNo.get();
-		Long pNo = postNo.get();
+		Long pNo = null;
+		if (postNo.isEmpty()) {
+			Long cnt = blogService.findCountCategoryNo(cNo);
+			if (cnt != 0) {
+				pNo = blogService.findPostNoByCategoryNo(cNo);
+			}
+		}
+		else {
+			pNo = postNo.get();
+		}
 		Map<String, Object> map = blogService.getMain(id, pNo, cNo);
 		PostVo pvo = (PostVo)map.get("pvo");
 		List<CategoryVo> clist = (List<CategoryVo>) map.get("clist");
-		List<PostVo> plist = (List<PostVo>)map.get("plist");
+		if (pNo != null) {
+			List<PostVo> plist = (List<PostVo>)map.get("plist");
+			model.addAttribute("plist", plist);
+		}
 		BlogVo blogVo = blogService.findById(id);
 		model.addAttribute("pvo",pvo);
 		model.addAttribute("clist",clist);
-		model.addAttribute("plist", plist);
 		model.addAttribute("blogVo", blogVo);
 		return "blog/main";
 	}
@@ -122,7 +128,7 @@ public class BlogController {
 		if (!id.equals(authUser.getId())) {
 			return "blog/main";
 		}
-		List<CategoryVo> categoryList = categoryService.findAllCategoryById(id);
+		List<CategoryVo> categoryList = blogService.findAllCategoryById(id);
 		model.addAttribute("list", categoryList);
 		model.addAttribute("categoryVo", new CategoryVo());
 		

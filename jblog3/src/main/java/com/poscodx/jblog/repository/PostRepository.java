@@ -27,7 +27,7 @@ public class PostRepository {
 	 * post 개수 세기
 	 */
 	
-	public Long findCountCategoryNo(Long categoryNo) {
+	public Long findCountByCategoryNo(Long categoryNo) {
 		return sqlSession.selectOne("post.findCountByCategoryNo", categoryNo);
 	}
 	

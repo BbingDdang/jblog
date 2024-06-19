@@ -38,5 +38,12 @@
 			where no = #{no} and category_no = #{categoryNo}
 		]]>
 	</select>
+	<select id = "findCountByCategoryNo" parameterType = "long" resultType = "long">
+		<![CDATA[	
+			select count(*)
+			from post
+			where category_no = #{categoryNo}
+		]]>
+	</select>
 	
 </mapper>
