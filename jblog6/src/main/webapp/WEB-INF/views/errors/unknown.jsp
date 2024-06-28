@@ -7,10 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Exception Handler : Spring</h1>
-	<hr>
-	<pre style="color: #ff1000">
-${error }
-	</pre>
+	<h1>Unknown : Custom</h1>
+	<p>
+		?
+	</p>
 </body>
 </html>
