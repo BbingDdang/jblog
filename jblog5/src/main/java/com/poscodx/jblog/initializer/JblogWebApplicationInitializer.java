@@ -39,7 +39,7 @@ public class JblogWebApplicationInitializer extends AbstractAnnotationConfigDisp
 
 	@Override
 	protected Filter[] getServletFilters() {
-		return new Filter[] {new CharacterEncodingFilter("utf-8"),  new DelegatingFilterProxy("springSecurityFilterChain")};
+		return new Filter[] {new CharacterEncodingFilter("utf-8")};
 	}
 	
 	

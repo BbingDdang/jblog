@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,10 +26,8 @@ import com.poscodx.jblog.vo.PostVo;
 import com.poscodx.jblog.vo.UserVo;
 
 @Controller
-@RequestMapping("/{id:^(?!assets$).*}")
+@RequestMapping("/{id:(?!assets).*}")
 public class BlogController {
-	@Autowired
-	private ApplicationContext applicationContext;
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -50,6 +47,8 @@ public class BlogController {
 	@RequestMapping({"","/{categoryNo}","/{categoryNo}/{postNo}"})
 	public String index(@PathVariable("id") String id, @PathVariable("categoryNo") Optional<Long> categoryNo, UserVo vo, @PathVariable("postNo") Optional<Long> postNo, Model model) {
 		Map<String, Long> noList = blogService.getCategoryNoAndPostNo(id);
+		
+		
 		if (categoryNo.isEmpty()) {
 			categoryNo = Optional.of(noList.get("cNo"));
 		}
@@ -84,6 +83,7 @@ public class BlogController {
 	
 	@GetMapping("/admin/basic")
 	public String adminBasic(@PathVariable("id") String id, UserVo vo, Model model, Authentication authentication) {
+		
 		UserVo authUser = (UserVo)authentication.getPrincipal();
 		if (!id.equals(authUser.getId())) {
 			return "blog/main";

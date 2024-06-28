@@ -70,7 +70,8 @@ public class SecurityConfig {
        		.and()
        		
        		.csrf()
-       		.disable();
+       		.disable()
+       		.authorizeHttpRequests()
     		// 어드민 페이지 접근 권한 설정...
 //       		.authorizeHttpRequests(registry -> {
 //       			registry
@@ -84,8 +85,8 @@ public class SecurityConfig {
 //   					.requestMatchers(new RegexRequestMatcher("^/user/update$", null))
 //   					.hasAnyRole("ADMIN", "USER")
 //       	       		
-//       				.anyRequest()
-//       	       		.permitAll();
+       				.anyRequest()
+       	       		.permitAll();
 //			});
     	// 미권한 사용자가 접근 시 에러 발생
 //       		.exceptionHandling(exceptionHandlingConfigurer -> {
