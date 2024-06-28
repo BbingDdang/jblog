@@ -1,4 +1,4 @@
-package com.poscodx.jblog.config.app;
+package com.poscodx.jblog.config;
 
 import java.io.IOException;
 

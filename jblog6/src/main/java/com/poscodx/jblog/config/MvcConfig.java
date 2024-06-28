@@ -1,4 +1,4 @@
-package com.poscodx.jblog.config.web;
+package com.poscodx.jblog.config;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -12,17 +12,29 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer{
+	
+	@Bean
+	public LocaleResolver localeResolver() {
+		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+		localeResolver.setCookieName("lang");
+		localeResolver.setCookieHttpOnly(false);
+		
+		return localeResolver;
+	}
+	
 	
 	@Bean
 	public ViewResolver viewResolver() {
