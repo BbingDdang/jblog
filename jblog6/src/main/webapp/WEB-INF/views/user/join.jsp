@@ -20,7 +20,7 @@ $(function() {
 		}
 		
 		$.ajax({
-			url: "/jblog5/user/api/checkid?id=" + id,
+			url: "/jblog6/user/api/checkid?id=" + id,
 			type: "get",
 			dataType: "json",
 			error: function(xhr, status, err){
