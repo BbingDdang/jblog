@@ -1,0 +1,14 @@
+<ul class="admin-menu">
+    <th:block th:each="item : ${entry}">
+        <div th:if="${item.pageNo == param.p}">
+            <li class="selected" th:text="${item.pageNo}"></li>
+            <!-- Current page -->
+        </div>
+        <div th:if="${item.active}">
+            <li><a th:href="@{/board(p=${item.pageNo}, kwd=${keyword})}" th:text="${item.pageNo}"></a></li>
+        </div>
+        <div th:unless="${item.pageNo == param.p || item.active}">
+            <li th:text="${item.pageNo}"></li>
+        </div>
+    </th:block>
+</ul>

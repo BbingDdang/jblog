@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JBlog</title>
+    <link rel="stylesheet" th:href="@{/assets/css/jblog.css}">
+</head>
+<body>
+    <div id="container">
+        <th:block th:replace="includes/blog-header :: blog-header"></th:block>
+        <div id="wrapper">
+            <div id="content">
+                <div class="blog-content">
+                    <h4 th:text="${pvo.title}"></h4>
+                    <p th:text="${pvo.contents}"></p>
+                </div>
+                <ul class="blog-list">
+                    <li th:each="p : ${plist}">
+                        <a th:href="@{'/' + ${blogVo.id} + '/' + ${p.categoryNo} + '/' + ${p.no}}" th:text="${p.title}"></a>
+                        <span th:text="${p.regDate}"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="extra">
+            <div class="blog-logo">
+                <img th:src="@{${blogVo.logo}}" alt="Blog Logo">
+            </div>
+        </div>
+
+        <div id="navigation">
+            <h2>카테고리</h2>
+            <ul>
+                <li th:each="c : ${clist}">
+                    <a th:href="@{'/' + ${blogVo.id} + '/' + ${c.no}}" th:text="${c.name}"></a>
+                </li>
+            </ul>
+        </div>
+        
+        <th:block th:replace="includes/blog-footer :: blog-footer"></th:block>
+    </div>
+</body>
+</html>

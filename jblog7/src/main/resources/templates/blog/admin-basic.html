@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>JBlog</title>
+    <link rel="stylesheet" th:href="@{/assets/css/jblog.css}">
+</head>
+<body>
+    <sec:authorize access="isAuthenticated()">
+        <div id="container" th:with="user=${#authentication.getPrincipal()}">
+            <th:block th:replace="includes/blog-header :: blog-header"></th:block>
+            <div id="wrapper">
+                <div id="content" class="full-screen">
+                    <ul class="admin-menu">
+                        <li class="selected">기본설정</li>
+                        <li><a th:href="@{'/' + ${user.id} + '/admin/category'}">카테고리</a></li>
+                        <li><a th:href="@{'/' + ${user.id} + '/admin/write'}">글작성</a></li>
+                    </ul>
+                    <form th:action="@{'/' + ${user.id} + '/admin/basic'}" method="post" enctype="multipart/form-data">
+                        <table class="admin-config">
+                            <tr>
+                                <td class="t">블로그 제목</td>
+                                <td><input type="text" size="40" name="title"></td>
+                            </tr>
+                            <tr>
+                                <td class="t">로고이미지</td>
+                                <td><img th:src="@{${blogVo.logo}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="t">&nbsp;</td>
+                                <td><input type="file" name="file"></td>
+                            </tr>
+                            <tr>
+                                <td class="t">&nbsp;</td>
+                                <td class="s"><input type="submit" value="기본설정 변경"></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+            <th:block th:replace="includes/blog-footer :: blog-footer"></th:block>
+        </div>
+    </sec:authorize>
+</body>
+</html>

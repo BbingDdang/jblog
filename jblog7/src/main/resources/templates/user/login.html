@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>JBlog</title>
+<link rel="stylesheet" th:href="@{/assets/css/jblog.css}">
+<script th:src="@{/assets/js/jquery/jquery-1.9.0.js}" type="text/javascript"></script>
+</head>
+<body>
+	<div class="center-content">
+		<h1 class="logo">JBlog</h1>
+		<div th:replace="fragments/menu :: menu"></div>
+		<form class="login-form" action="@{/user/auth}" method="post">
+      		<label>아이디</label> <input type="text" name="id" th:value="${id}">
+      		<label>패스워드</label> <input type="password" name="password">
+      		<p th:if="${not #strings.isEmpty(id)}">
+				로그인이 실패했습니다.
+			</p>
+      		<input type="submit" value="로그인">
+		</form>
+	</div>
+</body>
+</html>
