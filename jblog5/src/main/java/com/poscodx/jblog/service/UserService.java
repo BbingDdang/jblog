@@ -1,6 +1,7 @@
 package com.poscodx.jblog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +25,15 @@ public class UserService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	/*
 	 * 회원가입
 	 */
 	
 	public void join(UserVo vo) {
+		vo.setPassword(passwordEncoder.encode(vo.getPassword()));
 		userRepository.insert(vo);
 		BlogVo blogVo = new BlogVo();
 		blogVo.setId(vo.getId());
@@ -47,8 +52,8 @@ public class UserService {
 	 * 유저 목록 가져오기
 	 */
 	
-	public UserVo getUser(String id) {
-		return userRepository.findById(id);
+	public UserVo getUserForCheckEmail(String id) {
+		return userRepository.findByIdForCheckEmail(id);
 	}
 	
 	/*

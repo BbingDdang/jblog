@@ -19,7 +19,7 @@ public class UserController {
 	
 	@GetMapping("/checkid")// -> ~`/user/api/checkid?id=""
 	public JsonResult checkId(@RequestParam(value = "id", required = true, defaultValue = "") String id ) {
-		UserVo vo = userService.getUser(id);
+		UserVo vo = userService.getUserForCheckEmail(id);
 		
 		return JsonResult.success(vo != null);
 	}

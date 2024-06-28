@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,19 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.poscodx.jblog.security.Auth;
-import com.poscodx.jblog.security.AuthUser;
 import com.poscodx.jblog.service.BlogService;
 import com.poscodx.jblog.service.FileUploadService;
-import com.poscodx.jblog.service.UserService;
 import com.poscodx.jblog.vo.BlogVo;
 import com.poscodx.jblog.vo.CategoryVo;
 import com.poscodx.jblog.vo.PostVo;
 import com.poscodx.jblog.vo.UserVo;
 
 @Controller
-@RequestMapping("/{id:(?!assets).*}")
+@RequestMapping("/{id:^(?!assets$).*}")
 public class BlogController {
+	@Autowired
+	private ApplicationContext applicationContext;
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -38,15 +39,12 @@ public class BlogController {
 	private FileUploadService fileUploadService;
 	
 	@Autowired
-	private UserService userService;
-	
-	@Autowired
 	private BlogService blogService;
 	
 	/*
 	 * 블로그 메인 페이지 보기 
 	 * 
-	 * 코딩천재 임병준
+	 * 
 	 */
 	
 	@RequestMapping({"","/{categoryNo}","/{categoryNo}/{postNo}"})
@@ -84,10 +82,9 @@ public class BlogController {
 	 * admin-basic 페이지 보기
 	 */
 	
-	@Auth
 	@GetMapping("/admin/basic")
-	public String adminBasic(@PathVariable("id") String id,@AuthUser UserVo vo, Model model) {
-		UserVo authUser = userService.getUser(vo.getId());
+	public String adminBasic(@PathVariable("id") String id, UserVo vo, Model model, Authentication authentication) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		if (!id.equals(authUser.getId())) {
 			return "blog/main";
 		}
@@ -100,14 +97,13 @@ public class BlogController {
 	 * admin-basic 페이지 업데이트 실행
 	 */
 	
-	@Auth
 	@PostMapping("/admin/basic")
-	public String adminBasic(@PathVariable("id") String id, BlogVo vo, UserVo uvo, @RequestParam MultipartFile file) {
+	public String adminBasic(@PathVariable("id") String id, BlogVo vo, UserVo uvo, @RequestParam MultipartFile file, Authentication authentication) {
 		String logo = fileUploadService.restore(file);
 		if (logo != null) {
 			vo.setLogo(logo);
 		}
-		UserVo authUser = userService.getUser(uvo.getId());
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		if (!id.equals(authUser.getId())) {
 			return "blog/main";
 		}
@@ -121,10 +117,9 @@ public class BlogController {
 	 * admin-category 페이지 보기 
 	 */
 	
-	@Auth
 	@GetMapping("/admin/category")
-	public String adminCategory(@PathVariable("id") String id, UserVo vo, Model model) {
-		UserVo authUser = userService.getUser(vo.getId());
+	public String adminCategory(@PathVariable("id") String id, UserVo vo, Model model, Authentication authentication) {
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		if (!id.equals(authUser.getId())) {
 			return "blog/main";
 		}
@@ -139,7 +134,6 @@ public class BlogController {
 	 * admin-category 추가 
 	 */
 	
-	@Auth
 	@PostMapping("/admin/category/add")
 	public String addCategory(@PathVariable("id") String id, @ModelAttribute("categoryVo") CategoryVo vo, Model model) {
 	    blogService.addCategory(vo);
@@ -150,7 +144,6 @@ public class BlogController {
 	 * admin-category 삭제
 	 */
 	
-	@Auth
 	@GetMapping("/admin/category/delete")
 	public String deleteCategory(@PathVariable("id") String id, @RequestParam("no") Long no) {
 		blogService.deleteCategory(id,no);
@@ -161,10 +154,10 @@ public class BlogController {
 	 * post insert 페이지 보기 
 	 */
 	
-	@Auth
 	@GetMapping("/admin/write")
-	public String adminWrite(@PathVariable("id") String id, UserVo vo, Model model) {
-		UserVo authUser = userService.getUser(vo.getId());
+	public String adminWrite(@PathVariable("id") String id, UserVo vo, Model model, Authentication authentication) {
+		//UserVo authUser = userService.getUser(vo.getId());
+		UserVo authUser = (UserVo)authentication.getPrincipal();
 		if (!id.equals(authUser.getId())) {
 			return "blog/main";
 		}
@@ -178,7 +171,6 @@ public class BlogController {
 	 * post insert 실행 
 	 */
 	
-	@Auth
 	@PostMapping("/admin/write")
 	public String adminWrite(@PathVariable("id") String id, @ModelAttribute("postVo") PostVo vo) {
 		blogService.addPost(vo);
